@@ -43,14 +43,16 @@ def match(word, tested, result, d=None):
       if d[c] <= 0:
         del d[c]
     elif n == 0:
-      if c in d:
+      if word[i] == c or c in d:
         return False
 
   return True
 
 def perf(word, solution, lex=SOLUTIONS):
-  result = check(word, solution)
-  return len(set(filter(lambda w: match(w, word, result), lex))) / len(lex)
+  return len(skim(word, solution, lex)) / len(lex)
+
+def skim(word, solution, valid):
+  return set(filter(lambda w: match(w, word, check(word, solution)), valid))
 
 def bash(solution, lex=ALL, depth=1, n=10, cutoff=float('inf')):
   results = []
